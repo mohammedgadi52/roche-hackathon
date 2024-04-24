@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Welcome to Backlog Management System</title>
+        <style>
+       body {
+      font-family: Arial, sans-serif;
+      background-image: url('unnamed.jpg'); /* Set background image */
+      background-size: cover; /* Cover the entire background */
+      background-position: center; /* Center the background image */
+      background-repeat: no-repeat; /* Do not repeat the background image */
+      margin: 0;
+      padding: 0;
+      background-color: rgba(255, 255, 255, 0.1); /* Set background color with very low transparency */
+
+    }
+          
+          .container {
+            max-width: 600px;
+            margin: 100px auto;
+            text-align: center;
+          }
+          
+          h1 {
+            color: #333;
+            font-size: 36px;
+          }
+          
+          .button-container {
+            margin-top: 50px;
+          }
+          
+          button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #da9c4a; /* Light brown color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+          }
+          
+          button:hover {
+            background-color: #b38b5f; /* Darker shade of brown on hover */
+          }
+          
+          .button-container button + button {
+            margin-left: 20px;
+          }
+        </style>
+      </head>
+<body>
+  <div class="container">
+    <h1>Welcome to Backlog Management System</h1>
+    <div class="button-container">
+      <button onclick="window.location.href='backlog.html';">Create Feature Backlog</button>
+      <button onclick="window.location.href='backlog.html';">Create Feature Backlog via MoM</button>
+    </div>
+  </div>
+</body>
+</html>

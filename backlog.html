@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Issue Request Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    .mandatory::after {
+      content: " *";
+      color: red;
+      font-weight: bold;
+    }
+    
+    textarea {
+      min-height: 100px;
+      resize: vertical; /* Allows vertical resizing */
+    }
+
+    textarea.not-resizable {
+      resize: none; /* Prevents resizing */
+    }
+    
+    /* New CSS for form and button */
+    /* New CSS for form and button */
+    form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Add position relative to form */
+    }
+
+    /* Style for button container */
+    .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -10px; /* Adjusted margin */
+    }
+
+    .button-container button {
+    margin-left: 5px; /* Adjusted margin between buttons */
+    margin-bottom: 5px; /* Reduced margin between button and textarea */
+    }
+    
+    input[type="text"],
+    textarea {
+      width: calc(100% - 10px); /* Adjusted width to accommodate the asterisk */
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    button[type="submit"] {
+      background-color: #4caf50;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .submit-request {
+      background-color: #b1eeb3;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      width: 100%;
+    }
+    
+    .submit-request:hover {
+      background-color: #45a049;
+    }
+
+    .add-button,
+    .delete-button {
+      background-color: #007bff;
+      color: white;
+      padding: 3px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 10px;
+      /* margin-top: 10px; */
+    }
+
+    .add-button:hover,
+    .delete-button:hover {
+      background-color: #0056b3;
+    }
+
+    h1 img {
+      display: inline-block;
+      vertical-align: middle; /* Align the image vertically */
+    }
+
+    h1 span {
+      display: inline-block;
+      vertical-align: middle; /* Align the text vertically */
+    }
+
+    #template-container {
+      max-width: 900px;
+      margin: 10px auto;
+      padding: 20px;
+      width: 100%;
+      height: fit-content;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+   
+
+  </style>
+</head>
+<body>
+  <h1>
+    <img src="file:///Users/mohammed.gadi/Downloads/roche-logo-black-rgb-768x399.png" alt="Your Image" style="height: 40px; width: auto; margin-right: 0px;">
+    <span>Backlog Management System</span> 
+  </h1>
+ 
+    <form id="feature-request-form">
+      <div>
+        <label for="project-name">Project Name / URL<span class="mandatory"></span></label>
+        <input type="text" id="project-name" name="project-name" placeholder="Enter your Project Name/URL" autocomplete="off" required>
+      </div>
+      <div>
+        <label for="feature-title">Feature Title<span class="mandatory"></span></label>
+        <textarea id="feature-title" name="feature-title" class="not-resizable" autocomplete="off" required></textarea>
+      </div>
+      <label for="problem-to-solve">Problem to Solve<span class="mandatory"></span></label>
+      <textarea id="problem-to-solve" name="problem-to-solve" class="not-resizable" autocomplete="off" required></textarea>
+    </div>
+      <div>
+        <label for="assigned-person">Assigned Person<span class="mandatory"></span></label>
+        <input type="text" id="assigned-person" name="assigned-person" autocomplete="off" required>
+      </div>
+      <div>
+        <label for="proposal">Proposal</label>
+        <textarea id="proposal" name="proposal" class="not-resizable"></textarea>
+      </div>
+      <div>
+        <label for="acceptance-criteria">Acceptance Criteria</label>
+        <textarea id="acceptance-criteria" name="acceptance-criteria" class="not-resizable" autocomplete="off"></textarea>
+        <ul id="acceptanceCriteriaList"></ul>
+        <div class="button-container">
+          <button type="button" class="add-button" onclick="addBulletPoint()">Add</button>
+          <button type="button" class="delete-button" onclick="deleteLastBulletPoint()">Delete</button>
+        </div>
+      </div>
+      <div>
+        <label for="iteration">Iteration #</label>
+        <input type="text" id="iteration" name="iteration" autocomplete="off">
+      </div>
+      <button type="submit">Generate Template</button>
+    </form>
+
+    <div id="template-container" style="display: none;">
+      <textarea id="template-text" rows="50" style="width: 100%; padding: 10px"></textarea>
+    </div>
+ 
+
+  <script>
+    function addBulletPoint() {
+      const acceptanceCriteriaTextarea = document.getElementById('acceptance-criteria');
+      const currentValue = acceptanceCriteriaTextarea.value.trim();
+      if (currentValue !== "") {
+        const list = document.getElementById('acceptanceCriteriaList');
+        const listItem = document.createElement('li');
+        listItem.textContent = currentValue;
+        list.appendChild(listItem);
+        acceptanceCriteriaTextarea.value = ''
+      } 
+    }
+
+    function deleteLastBulletPoint() {
+      var acceptanceCriteriaTextarea = document.getElementById('acceptance-criteria');
+      var currentValue = acceptanceCriteriaTextarea.value.trim();
+      if (currentValue !== "") {
+        var lines = currentValue.split("\n");
+        lines.pop(); // Remove the last line
+        acceptanceCriteriaTextarea.value = lines.join("\n");
+      }
+    }
+
+    function generateTemplate(e){
+      e.preventDefault();
+      const formData = new FormData(this);
+      const projectName = formData.get('project-name');
+      const featureTitle = formData.get('feature-title');
+      const problemToSolve = formData.get('problem-to-solve');
+      const assignedPerson = formData.get('assigned-person');
+      const proposal = formData.get('proposal');
+      const acceptanceCriteriaItemList = document.querySelectorAll('#acceptanceCriteriaList li');
+      const iterationCount = formData.get('iteration');
+
+      let acceptanceCriteria = ''
+      if(acceptanceCriteriaItemList.length > 0){
+        acceptanceCriteriaItemList.forEach((item) => {
+          acceptanceCriteria += `\t - [ ] ${item.textContent} \n`
+        })
+      }
+
+      const markdown = 
+      `
+      ### Feature Title \n
+      ${featureTitle}
+      \n
+      ### Problem to solve \n
+      ${problemToSolve}
+      \n
+      ### Assigned Person \n
+      ${assignedPerson}
+      \n
+      ### Proposal \n
+      ${proposal}
+      \n
+      ### Acceptance criteria \n
+      ${acceptanceCriteria}
+      \n
+      ### Iteration: ${iterationCount} \n
+      `
+      const submitRequestButton = document.createElement('button');
+      submitRequestButton.setAttribute('type', 'button');
+      submitRequestButton.textContent = "Submit Request";
+      submitRequestButton.classList.add('submit-request');
+
+
+      document.getElementById('template-container').style.display = 'inherit';
+      document.getElementById('template-container').appendChild(submitRequestButton);
+      document.getElementById('template-text').innerHTML = markdown;
+    }
+
+    const form = document.getElementById("feature-request-form");
+    form.addEventListener("submit",generateTemplate);
+
+  </script>
+</body>
+</html>
